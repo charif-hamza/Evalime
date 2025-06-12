@@ -1,0 +1,27 @@
+:root {
+  /* Keeping minimal root styles, most variables are in global.css */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark; /* Keep color scheme */
+  /* color and background-color are handled by global.css body styles */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Removing generic link styles, handled elsewhere or inherit */
+
+/* Removing generic body styles, handled by global.css */
+
+/* Removing generic h1 styles, handled in global.css and components */
+
+/* Removing generic button styles, handled in components */
+
+/* Simplifying media query as global.css handles light mode */
+@media (prefers-color-scheme: light) {
+  /* Keeping this block, but content is now minimal as global.css sets light theme */
+}

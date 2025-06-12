@@ -1,0 +1,138 @@
+/* src/components/Question.module.css */
+.questionCard {
+  background: #ffffff; /* Solid white background */
+  border-radius: 18px; /* Slightly more rounded */
+  padding: 2.5rem 3rem 2rem 3rem; /* Increased padding */
+  margin-bottom: 2.5rem; /* Increased margin */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Softer, more spread out shadow */
+  border-left: none; /* Removed border-left */
+  border: 1px solid #e0e0e0; /* Added a subtle border */
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; /* Added transform transition */
+  position: relative;
+  animation: fadeInUp 0.7s cubic-bezier(.23,1.01,.32,1) both;
+}
+
+.questionCard:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+
+.questionHeader {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1.5rem; /* Increased margin */
+}
+
+.questionNumber {
+  font-weight: 700;
+  color: #3b82f6;
+  font-size: 1.2rem; /* Slightly increased font size */
+  background: #eef2ff; /* Lighter blue background */
+  border-radius: 10px; /* More rounded */
+  padding: 0.4rem 1.2rem; /* Adjusted padding */
+  margin-right: 1.5rem; /* Increased margin */
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1); /* Added subtle shadow */
+}
+
+.questionText {
+  font-size: 1.25rem; /* Increased font size */
+  margin-bottom: 2rem; /* Increased margin */
+  line-height: 1.8; /* Increased line height for readability */
+  color: #333333; /* Darker text color */
+  font-weight: 500;
+}
+
+.choicesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.choice {
+  padding: 1.2rem 1.5rem; /* Increased padding */
+  border: 1px solid #e0e0e0; /* Subtle border */
+  border-radius: 12px; /* More rounded */
+  margin-bottom: 1rem; /* Increased margin */
+  font-size: 1.1rem; /* Slightly increased font size */
+  background: #f9fafb; /* Lighter background */
+  transition: all 0.2s ease-in-out; /* Smoother transition */
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  display: flex;
+  align-items: center;
+  font-weight: 400; /* Lighter font weight */
+  color: #333333; /* Darker text color */
+}
+
+.choice:hover:not(.correct):not(.incorrect):not(.selected) {
+  border-color: #3b82f6; /* Highlight border on hover */
+  background: #eef2ff; /* Lighter blue background on hover */
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1); /* More prominent shadow on hover */
+}
+
+.selected {
+  border-color: #3b82f6; /* Blue border for selected */
+  background: #eef2ff; /* Lighter blue background for selected */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Blue glow for selected */
+  font-weight: 500; /* Bolder font for selected */
+}
+
+.correct {
+  border-color: #10b981; /* Green border for correct */
+  background: linear-gradient(90deg, #f0fdf4 60%, #dcfce7 100%); /* Green gradient */
+  font-weight: 600; /* Bolder font for correct */
+  color: #047857; /* Darker green text */
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); /* Green glow for correct */
+}
+
+.incorrect {
+  border-color: #ef4444; /* Red border for incorrect */
+  background: linear-gradient(90deg, #fef2f2 60%, #fee2e2 100%); /* Red gradient */
+  color: #b91c1c; /* Darker red text */
+  font-weight: 600; /* Bolder font for incorrect */
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2); /* Red glow for incorrect */
+}
+
+.checkBtn {
+  background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%); /* Deeper blue gradient */
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem 2.5rem; /* Increased padding */
+  font-size: 1.1rem; /* Slightly increased font size */
+  cursor: pointer;
+  margin-top: 1.5rem; /* Increased margin */
+  transition: background 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out; /* Smoother transitions */
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  display: block;
+  width: 100%; /* Make button full width */
+  max-width: 300px; /* Limit max width */
+  margin-left: auto; /* Center the button */
+  margin-right: auto; /* Center the button */
+}
+
+.checkBtn:hover:not(:disabled) {
+  background: linear-gradient(90deg, #2563eb 0%, #1e3a8a 100%); /* Darker gradient on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.checkBtn:active:not(:disabled) {
+  transform: translateY(0); /* Return to original position on click */
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+}
+
+.checkBtn:disabled {
+  background: #d1d5db; /* Grey background when disabled */
+  color: #9ca3af; /* Grey text when disabled */
+  cursor: not-allowed;
+  box-shadow: none;
+}

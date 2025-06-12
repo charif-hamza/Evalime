@@ -1,0 +1,48 @@
+.landing-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #a7f3d0 0%, #60a5fa 100%); /* Updated gradient */
+  animation: fadeIn 1s ease-out; /* Added ease-out to animation */
+  padding: 20px; /* Added padding for smaller screens */
+}
+.landing-title {
+  font-size: 3.5rem; /* Slightly increased font size */
+  font-weight: 800;
+  color: #047857; /* Darker green */
+  margin-bottom: 1.5rem; /* Increased margin */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Added text shadow */
+}
+.landing-subtitle {
+  font-size: 1.4rem; /* Slightly increased font size */
+  color: #1d4ed8; /* Darker blue */
+  margin-bottom: 3rem; /* Increased margin */
+  text-align: center; /* Center align subtitle */
+}
+.landing-btn {
+  background: #059669; /* Darker green */
+  color: #fff;
+  font-size: 1.3rem; /* Slightly increased font size */
+  font-weight: 700;
+  padding: 1.2rem 3rem; /* Increased padding */
+  border: none;
+  border-radius: 30px; /* More rounded corners */
+  cursor: pointer;
+  box-shadow: 0 6px 20px 0 rgba(5, 150, 105, 0.25); /* More prominent shadow */
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out; /* Smoother transitions */
+}
+.landing-btn:hover {
+  background: #047857; /* Even darker green on hover */
+  transform: scale(1.1); /* More pronounced scale effect */
+  box-shadow: 0 8px 25px 0 rgba(4, 120, 87, 0.35); /* Darker shadow on hover */
+}
+.landing-btn:active {
+  transform: scale(0.98); /* Slightly shrink on click */
+  box-shadow: 0 3px 10px 0 rgba(4, 120, 87, 0.25); /* Smaller shadow on active */
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

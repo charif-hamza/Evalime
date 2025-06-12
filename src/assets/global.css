@@ -1,0 +1,176 @@
+/* src/assets/global.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); /* Changed font to Roboto */
+
+:root {
+  --background: #f4f7f6; /* Lighter background */
+  --primary-blue: #3b82f6;
+  --darker-blue: #2563eb;
+  --primary-green: #10b981;
+  --darker-green: #059669;
+  --text-color: #333333; /* Dark grey text */
+  --secondary-text-color: #555555; /* Medium grey text */
+  --border-color: #e0e0e0; /* Light grey border */
+  --card-background: #ffffff; /* White card background */
+  --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Standard box shadow */
+}
+
+body {
+  font-family: 'Roboto', sans-serif; /* Changed font family */
+  background: linear-gradient(135deg, #eef2ff 0%, #dcfce7 100%); /* Updated gradient */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6; /* Improved line height */
+  color: var(--text-color); /* Applied text color variable */
+}
+
+.container {
+  width: 100%;
+  max-width: 960px; /* Increased max-width */
+  margin: 3rem auto 0 auto; /* Adjusted margin */
+  background: var(--card-background); /* Applied card background variable */
+  border-radius: 20px; /* More rounded corners */
+  box-shadow: var(--box-shadow); /* Applied box shadow variable */
+  padding: 3rem 2.5rem 3.5rem 2.5rem; /* Increased padding */
+  position: relative;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 3rem; /* Increased margin */
+  color: var(--text-color); /* Applied text color variable */
+}
+
+header h1 {
+  font-weight: 700; /* Adjusted font weight */
+  font-size: 3rem; /* Slightly increased font size */
+  margin-bottom: 0.8rem; /* Adjusted margin */
+  letter-spacing: 0.5px; /* Adjusted letter spacing */
+  color: var(--primary-blue); /* Applied primary blue variable */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Softer text shadow */
+}
+
+header p {
+  color: var(--secondary-text-color); /* Applied secondary text color variable */
+  font-size: 1.2rem; /* Slightly increased font size */
+  font-weight: 400; /* Adjusted font weight */
+  margin-bottom: 0;
+}
+
+.check-answers-btn {
+  background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-green) 100%); /* Applied color variables */
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.2rem; /* Slightly increased font size */
+  padding: 1rem 3rem; /* Increased padding */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); /* Updated shadow */
+  transition: background 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out; /* Smoother transitions */
+  margin: 2.5rem auto 0 auto; /* Adjusted margin */
+  display: block;
+  max-width: 300px; /* Limited max width */
+}
+
+.check-answers-btn:hover:not(:disabled) {
+  background: linear-gradient(90deg, var(--darker-blue) 0%, var(--darker-green) 100%); /* Darker gradient on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.check-answers-btn:active:not(:disabled) {
+  transform: translateY(0); /* Return to original position on click */
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+}
+
+.check-answers-btn:disabled {
+  background: #d1d5db; /* Grey background when disabled */
+  color: #9ca3af; /* Grey text when disabled */
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* AuthPage improvements - Keeping previous improvements and integrating with global styles */
+.auth-container {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2.5rem 3rem; /* Increased padding */
+  background: var(--card-background); /* Applied card background variable */
+  border-radius: 15px; /* More rounded corners */
+  box-shadow: var(--box-shadow); /* Applied box shadow variable */
+  text-align: center;
+  font-family: 'Roboto', sans-serif; /* Changed font family */
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem; /* Increased gap */
+}
+
+.auth-form input {
+  padding: 1rem 1.2rem; /* Increased padding */
+  border-radius: 10px; /* More rounded corners */
+  border: 1px solid var(--border-color); /* Applied border color variable */
+  font-size: 1.05rem; /* Slightly increased font size */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Added transitions */
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--primary-blue); /* Highlight color on focus */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Glow effect on focus */
+}
+
+.auth-form button {
+  background: var(--primary-blue); /* Applied primary blue variable */
+  color: #fff;
+  font-weight: 700; /* Bolder font weight */
+  border: none;
+  border-radius: 10px; /* More rounded corners */
+  padding: 1rem 0; /* Increased padding */
+  font-size: 1.15rem; /* Slightly increased font size */
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out; /* Added transitions */
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+}
+
+.auth-form button:hover {
+  background: var(--darker-blue); /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+}
+
+.auth-form button:active {
+  transform: translateY(0); /* Return to original position on click */
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.2);
+}
+
+.auth-error {
+  color: #b91c1c; /* Darker red */
+  margin-top: 1.2rem; /* Increased margin */
+  font-weight: 500;
+  font-size: 0.95rem; /* Slightly smaller font size */
+}
+
+.auth-switch {
+  margin-top: 2rem; /* Increased margin */
+  font-size: 1rem; /* Slightly increased font size */
+  color: var(--secondary-text-color); /* Applied secondary text color variable */
+}
+
+.auth-switch button {
+  background: none;
+  color: var(--primary-blue); /* Applied primary blue variable */
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+  text-decoration: underline; /* Underline the switch button */
+  transition: color 0.2s ease-in-out; /* Added transition */
+}
+
+.auth-switch button:hover {
+  color: var(--darker-blue); /* Darker blue on hover */
+}

@@ -1,0 +1,25 @@
+/* src/components/QuestionList.module.css */
+.listContainer {
+  margin-top: 2.5rem; /* Increased top margin */
+  padding: 0 1rem; /* Added horizontal padding */
+}
+
+.statusMessage {
+  text-align: center;
+  margin-top: 3.5rem; /* Increased top margin */
+  font-size: 1.3rem; /* Slightly increased font size */
+  color: #555; /* Darker grey color */
+  font-weight: 500; /* Added font weight */
+}
+
+.error {
+  color: #b91c1c; /* Darker red */
+  background-color: #fef2f2;
+  padding: 1.2rem; /* Increased padding */
+  border-radius: 10px; /* More rounded corners */
+  border: 1px solid #fecaca;
+  margin: 2rem auto; /* Center the error message and add margin */
+  max-width: 500px; /* Limit max width */
+  font-size: 1rem; /* Adjusted font size */
+  font-weight: 500; /* Added font weight */
+}
