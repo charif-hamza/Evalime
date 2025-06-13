@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { login, register } from './services/api';
 
@@ -14,7 +14,15 @@ function App() {
   // User state remains central to manage authentication
   const [user, setUser] = useState(null); // Example: { username: 'test', token: '...' }
   const [mode, setMode] = useState('login'); // Add mode state
+  const [theme, setTheme] = useState('light');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.body.classList.remove('light', 'dark');
+    document.body.classList.add(theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : 'light'));
 
   const handleLogin = async (username, password) => {
     const result = await login(username, password);
@@ -43,11 +51,12 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${theme}`}>
       {user && (
         <header className="app-header">
            <span className="header-logo" onClick={() => navigate('/dashboard')}>EvaLime MCQ</span>
            <div className="user-info">
+             <button className="theme-toggle" onClick={toggleTheme}>{theme === 'light' ? 'Dark' : 'Light'} Mode</button>
              <span>Hello, <strong>{user.username}</strong></span>
              <button onClick={handleLogout} className="logout-btn">Logout</button>
            </div>
