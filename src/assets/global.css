@@ -2,26 +2,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); /* Changed font to Roboto */
 
 :root {
-  --background: #f4f7f6; /* Lighter background */
+  /* Brand colors */
   --primary-blue: #3b82f6;
   --darker-blue: #2563eb;
   --primary-green: #10b981;
   --darker-green: #059669;
-  --text-color: #333333; /* Dark grey text */
-  --secondary-text-color: #555555; /* Medium grey text */
-  --border-color: #e0e0e0; /* Light grey border */
-  --card-background: #ffffff; /* White card background */
-  --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Standard box shadow */
+}
+
+/* Light theme variables */
+body.light {
+  --background: #f4f7f6;
+  --text-color: #333333;
+  --secondary-text-color: #555555;
+  --border-color: #e0e0e0;
+  --card-background: #ffffff;
+  --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --gradient-start: #eef2ff;
+  --gradient-end: #dcfce7;
+  --header-bg: rgba(255, 255, 255, 0.8);
+}
+
+/* Dark theme variables */
+body.dark {
+  --background: #1f2937;
+  --text-color: #f3f4f6;
+  --secondary-text-color: #9ca3af;
+  --border-color: #374151;
+  --card-background: #111827;
+  --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  --gradient-start: #1e3a8a;
+  --gradient-end: #047857;
+  --header-bg: rgba(31, 41, 55, 0.8);
 }
 
 body {
-  font-family: 'Roboto', sans-serif; /* Changed font family */
-  background: linear-gradient(135deg, #eef2ff 0%, #dcfce7 100%); /* Updated gradient */
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  line-height: 1.6; /* Improved line height */
-  color: var(--text-color); /* Applied text color variable */
+  line-height: 1.6;
+  color: var(--text-color);
 }
 
 .container {

@@ -1,6 +1,8 @@
 /* src/App.css - Adjusted for new layout */
 .app-container {
   min-height: 100vh;
+  transition: background 0.3s ease;
+  background: var(--background);
 }
 
 .app-header {
@@ -8,7 +10,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2.5rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--header-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #e5e7eb;
   position: sticky;
@@ -44,6 +46,20 @@
 
 .logout-btn:hover {
   background: #dc2626;
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.theme-toggle:hover {
+  background: var(--card-background);
 }
 
 main {
