@@ -46,4 +46,17 @@ async def read_index():
     html_file_path = os.path.join(static_dir, "index.html")
     if not os.path.exists(html_file_path):
         raise HTTPException(status_code=404, detail="index.html not found")
-    return FileResponse(html_file_path)
+    return FileResponse(html_file_path, media_type="text/html")
+
+
+@app.get("/{full_path:path}", include_in_schema=False)
+async def spa_fallback(full_path: str):
+    """Serve the React app for any non-API route."""
+    # Skip paths meant for the API or static files
+    if full_path.startswith("api") or full_path.startswith("static"):
+        raise HTTPException(status_code=404, detail="Not Found")
+
+    html_file_path = os.path.join(static_dir, "index.html")
+    if not os.path.exists(html_file_path):
+        raise HTTPException(status_code=404, detail="index.html not found")
+    return FileResponse(html_file_path, media_type="text/html")
