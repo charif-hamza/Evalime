@@ -1,23 +1,56 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+from passlib.context import CryptContext
+from jose import jwt
+from datetime import datetime, timedelta
+import os
+
+from .. import models
+from ..database import get_db
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
-fake_users = {}
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+SECRET_KEY = os.environ.get("JWT_SECRET", "change_me")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 class AuthRequest(BaseModel):
     username: str
     password: str
 
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password: str) -> str:
+    return pwd_context.hash(password)
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
+    to_encode = data.copy()
+    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
 @router.post("/register")
-def register(auth: AuthRequest):
-    if auth.username in fake_users:
+def register(auth: AuthRequest, db: Session = Depends(get_db)):
+    existing = db.query(models.User).filter(models.User.username == auth.username).first()
+    if existing:
         raise HTTPException(status_code=400, detail="Username already exists")
-    fake_users[auth.username] = auth.password
-    return {"token": f"fake-token-for-{auth.username}"}
+    user = models.User(
+        username=auth.username,
+        hashed_password=get_password_hash(auth.password)
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    token = create_access_token({"sub": str(user.id)})
+    return {"token": token}
 
 @router.post("/login")
-def login(auth: AuthRequest):
-    if fake_users.get(auth.username) != auth.password:
+def login(auth: AuthRequest, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.username == auth.username).first()
+    if not user or not verify_password(auth.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    return {"token": f"fake-token-for-{auth.username}"}
+    token = create_access_token({"sub": str(user.id)})
+    return {"token": token}

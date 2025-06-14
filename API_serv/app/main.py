@@ -11,8 +11,8 @@ from .routers import questions, auth
 
 # In production, use a migration tool like Alembic to manage your database schema.
 # For development, you might create tables like this, but it's not recommended for production.
-# from . import models, database
-# models.Base.metadata.create_all(bind=database.engine)
+from . import models, database
+models.Base.metadata.create_all(bind=database.engine)
 
 
 app = FastAPI(

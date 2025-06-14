@@ -5,6 +5,14 @@ from sqlalchemy.dialects.postgresql import JSONB  # Add this import
 
 from .database import Base
 
+# --- User Model ---
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
+
 # Note: In a full refactor, User and UserAttempt models would also be here.
 # I'm defining the models relevant to the 'questions' endpoint as requested.
 
