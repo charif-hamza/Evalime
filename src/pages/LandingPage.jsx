@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import './LandingPage.css';
 
 export default function LandingPage({ onStart }) {
@@ -15,30 +15,30 @@ export default function LandingPage({ onStart }) {
       </header>
 
       <section className="hero">
-        <motion.h1
+        <Motion.h1
           className="landing-title"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
           Master Your Subjects
-        </motion.h1>
-        <motion.p
+        </Motion.h1>
+        <Motion.p
           className="landing-subtitle"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
           Practice MCQs and track your progress in real time.
-        </motion.p>
-        <motion.button
+        </Motion.p>
+        <Motion.button
           className="landing-btn"
           onClick={onStart}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
           Get Started
-        </motion.button>
+        </Motion.button>
       </section>
 
       <section id="features" className="features">
