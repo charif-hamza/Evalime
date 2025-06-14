@@ -103,3 +103,16 @@ export async function fetchProgress(userId, { nocache = false } = {}) {
   }
   return response.json();
 }
+
+export async function submitAnswers(userId, answers) {
+  const response = await fetch('/api/answers', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user_id: userId, answers })
+  });
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || 'Failed to submit answers');
+  }
+  return response.json();
+}

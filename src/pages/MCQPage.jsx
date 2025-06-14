@@ -2,13 +2,15 @@
 import { useState, useEffect } from 'react';
 import Toast from '../components/Toast';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchQuestionsByEvalId } from '../services/api';
+import { fetchQuestionsByEvalId, submitAnswers } from '../services/api';
+import { getUserIdFromToken } from '../utils';
 import QuestionList from '../components/QuestionList';
 import styles from './MCQPage.module.css';
 
-export default function MCQPage() {
+export default function MCQPage({ user }) {
   const { evaluationId } = useParams();
   const navigate = useNavigate();
+  const userId = getUserIdFromToken(user?.token);
 
   const [questions, setQuestions] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +40,17 @@ export default function MCQPage() {
   }, [evaluationId]);
 
   const handleCheckAnswers = () => {
+    if (userId) {
+      const answers = Object.entries(userAnswers).flatMap(([qId, choices]) =>
+        (Array.isArray(choices) ? choices : []).map(choiceId => ({
+          question_id: parseInt(qId, 10),
+          choice_id: choiceId
+        }))
+      );
+      if (answers.length > 0) {
+        submitAnswers(userId, answers).catch(() => {});
+      }
+    }
     setShowCorrection(true);
     setShowToast(true);
   };

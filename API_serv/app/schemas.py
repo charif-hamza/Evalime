@@ -48,3 +48,15 @@ class Question(BaseModel):
     choices: List[Choice] = []
 
     model_config = ConfigDict(from_attributes=True)
+
+
+# --- Answer Schemas ---
+class UserAnswerCreate(BaseModel):
+    question_id: int
+    choice_id: int
+    duration_ms: int | None = None
+
+
+class BulkUserAnswerCreate(BaseModel):
+    user_id: int
+    answers: List[UserAnswerCreate]
