@@ -33,8 +33,8 @@ def _cached_topic_stats(user_id: int, ts: int):
         db.close()
 
 @router.get("/topic/{user_id}")
-def get_topic_stats(user_id: int):
-    ts = int(time.time() // CACHE_TTL)
+def get_topic_stats(user_id: int, nocache: bool = False):
+    ts = int(time.time() // CACHE_TTL) if not nocache else int(time.time())
     return _cached_topic_stats(user_id, ts)
 
 
@@ -57,6 +57,6 @@ def _cached_progress(user_id: int, ts: int):
         db.close()
 
 @router.get("/progress/{user_id}")
-def get_progress(user_id: int):
-    ts = int(time.time() // CACHE_TTL)
+def get_progress(user_id: int, nocache: bool = False):
+    ts = int(time.time() // CACHE_TTL) if not nocache else int(time.time())
     return _cached_progress(user_id, ts)
