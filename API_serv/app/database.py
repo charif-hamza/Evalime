@@ -6,8 +6,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 class Settings(BaseSettings):
-    """Loads environment variables from .env file."""
-    database_url: str
+    """Loads environment variables from .env file or uses a sensible default."""
+    database_url: str = "sqlite:///./app.db"
 
     class Config:
         env_file = ".env"
