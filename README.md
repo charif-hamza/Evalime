@@ -1,12 +1,80 @@
-# React + Vite
+# EvaLime - MCQ Practice Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+EvaLime is a full-stack application for browsing and answering multiple choice questions (MCQs). The front‑end is built with **React** and **Vite**, while the back‑end uses **FastAPI** with SQLAlchemy.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- User registration and login
+- Light and dark themes
+- Searchable dashboard of available evaluations
+- Interactive MCQ page with instant correction
+- REST API served by FastAPI
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+root
+├─ API_serv/               # FastAPI backend
+│  ├─ app/
+│  └─ requirements.txt
+├─ public/                 # Static assets
+├─ src/                    # React front-end source
+│  ├─ components/
+│  ├─ pages/
+│  └─ services/
+└─ vite.config.js          # Vite configuration
+```
+
+## Prerequisites
+
+- Node.js and npm
+- Python 3.10+
+- A PostgreSQL database (connection string provided via `DATABASE_URL`)
+
+## Setup
+
+### 1. Install Front‑end Dependencies
+
+```bash
+npm install
+```
+
+### 2. Install Back‑end Dependencies
+
+```bash
+cd API_serv
+pip install -r requirements.txt
+```
+
+Create a `.env` file in `API_serv` with at least the following variable:
+
+```
+DATABASE_URL=postgresql://user:password@localhost/dbname
+```
+
+### 3. Run the Development Servers
+
+In separate terminals, start the FastAPI server and the Vite dev server:
+
+```bash
+# FastAPI
+cd API_serv
+uvicorn app.main:app --reload
+
+# Front-end
+npm run dev
+```
+
+The Vite dev server proxies API calls to the FastAPI server as configured in `vite.config.js`.
+
+## Building for Production
+
+Run `npm run build` to generate optimized static files in the `dist` directory. You can serve these files with any static server and run the FastAPI app separately.
+
+## Linting
+
+Use `npm run lint` to check the front‑end code with ESLint.
+
+---
+
+EvaLime aims to simplify practicing MCQs with a clean interface and a simple API.
