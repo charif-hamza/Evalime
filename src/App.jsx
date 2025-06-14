@@ -71,7 +71,7 @@ function App() {
           <Route path="/login" element={!user ? <AuthPage onAuth={handleAuth} mode={mode} setMode={setMode} /> : <Navigate to="/dashboard" />} />
 
           {/* Protected Routes */}
-          <Route path="/dashboard" element={user ? <DashboardPage /> : <Navigate to="/login" />} />
+          <Route path="/dashboard" element={user ? <DashboardPage user={user} /> : <Navigate to="/login" />} />
           <Route path="/mcq/:evaluationId" element={user ? <MCQPage /> : <Navigate to="/login" />} />
           <Route path="/stats" element={user ? <Suspense fallback={null}><StatsPage userId={1} /></Suspense> : <Navigate to="/login" />} />
           

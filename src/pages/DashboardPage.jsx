@@ -1,16 +1,20 @@
 // src/pages/DashboardPage.jsx
 import { useState, useEffect, useMemo } from 'react';
+import StatsPage from './StatsPage';
+import { getUserIdFromToken } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import { fetchEvaluationsList } from '../services/api';
 import styles from './DashboardPage.module.css';
 
-export default function DashboardPage() {
+export default function DashboardPage({ user }) {
   const [evaluations, setEvaluations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState('');
+
+  const userId = getUserIdFromToken(user?.token);
 
   // Filter evaluations by search term (matches ouvrage, the first line in the card)
   const filteredEvaluations = useMemo(() => {
@@ -84,6 +88,13 @@ export default function DashboardPage() {
           <p className={styles.statusMessage}>No evaluations found for the selected filters.</p>
         )}
       </div>
+
+      {userId && (
+        <div style={{ marginTop: '3rem' }}>
+          <h2>Your Analytics</h2>
+          <StatsPage userId={userId} />
+        </div>
+      )}
     </div>
   );
 }
