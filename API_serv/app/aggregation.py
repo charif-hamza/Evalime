@@ -1,0 +1,46 @@
+from sqlalchemy import text
+from .database import SessionLocal
+
+
+def refresh_user_topic_stats():
+    """Aggregate attempts and correct answers per tag for each user."""
+    db = SessionLocal()
+    try:
+        db.execute(text("DELETE FROM user_topic_stats"))
+        db.execute(
+            text(
+                """
+                INSERT INTO user_topic_stats (user_id, tag_id, attempts, correct)
+                SELECT ua.user_id, qtl.tag_id,
+                       COUNT(*) AS attempts,
+                       SUM(CASE WHEN ua.is_correct THEN 1 ELSE 0 END) AS correct
+                FROM user_answers ua
+                JOIN question_tag_links qtl ON ua.question_id = qtl.question_id
+                GROUP BY ua.user_id, qtl.tag_id
+                """
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+
+def refresh_user_daily_scores():
+    """Aggregate daily score totals for each user."""
+    db = SessionLocal()
+    try:
+        db.execute(text("DELETE FROM user_daily_scores"))
+        db.execute(
+            text(
+                """
+                INSERT INTO user_daily_scores (user_id, day, score)
+                SELECT ua.user_id, DATE(ua.answered_at) as day,
+                       SUM(CASE WHEN ua.is_correct THEN 1 ELSE 0 END) as score
+                FROM user_answers ua
+                GROUP BY ua.user_id, DATE(ua.answered_at)
+                """
+            )
+        )
+        db.commit()
+    finally:
+        db.close()

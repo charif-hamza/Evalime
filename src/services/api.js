@@ -85,3 +85,19 @@ export async function fetchEvaluationsList() {
     department: ev.department || ''
   }));
 }
+
+export async function fetchTopicStats(userId) {
+  const response = await fetch(`/api/stats/topic/${userId}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch topic stats');
+  }
+  return response.json();
+}
+
+export async function fetchProgress(userId) {
+  const response = await fetch(`/api/stats/progress/${userId}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch progress');
+  }
+  return response.json();
+}

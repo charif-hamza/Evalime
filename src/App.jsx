@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { login, register } from './services/api';
 
@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import MCQPage from './pages/MCQPage';
+const StatsPage = lazy(() => import('./pages/StatsPage'));
 
 import './App.css';
 
@@ -58,6 +59,7 @@ function App() {
            <div className="user-info">
              <button className="theme-toggle" onClick={toggleTheme}>{theme === 'light' ? 'Dark' : 'Light'} Mode</button>
              <span>Hello, <strong>{user.username}</strong></span>
+             <button onClick={() => navigate('/stats')} className="logout-btn">Dashboard</button>
              <button onClick={handleLogout} className="logout-btn">Logout</button>
            </div>
         </header>
@@ -71,6 +73,7 @@ function App() {
           {/* Protected Routes */}
           <Route path="/dashboard" element={user ? <DashboardPage /> : <Navigate to="/login" />} />
           <Route path="/mcq/:evaluationId" element={user ? <MCQPage /> : <Navigate to="/login" />} />
+          <Route path="/stats" element={user ? <Suspense fallback={null}><StatsPage userId={1} /></Suspense> : <Navigate to="/login" />} />
           
           {/* Fallback Route */}
           <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} />} />
