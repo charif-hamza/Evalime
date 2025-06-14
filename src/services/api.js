@@ -86,16 +86,18 @@ export async function fetchEvaluationsList() {
   }));
 }
 
-export async function fetchTopicStats(userId) {
-  const response = await fetch(`/api/stats/topic/${userId}`);
+export async function fetchTopicStats(userId, { nocache = false } = {}) {
+  const url = `/api/stats/topic/${userId}${nocache ? '?nocache=1' : ''}`;
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Failed to fetch topic stats');
   }
   return response.json();
 }
 
-export async function fetchProgress(userId) {
-  const response = await fetch(`/api/stats/progress/${userId}`);
+export async function fetchProgress(userId, { nocache = false } = {}) {
+  const url = `/api/stats/progress/${userId}${nocache ? '?nocache=1' : ''}`;
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Failed to fetch progress');
   }

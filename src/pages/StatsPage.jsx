@@ -5,16 +5,29 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Tooltip, ResponsiveContai
 export default function StatsPage({ userId }) {
   const [topicStats, setTopicStats] = useState([]);
   const [progress, setProgress] = useState([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     if (!userId) return;
-    fetchTopicStats(userId).then(setTopicStats).catch(() => {});
-    fetchProgress(userId).then(setProgress).catch(() => {});
-  }, [userId]);
+    fetchTopicStats(userId, { nocache: refreshKey !== 0 })
+      .then(setTopicStats)
+      .catch(() => {});
+    fetchProgress(userId, { nocache: refreshKey !== 0 })
+      .then(setProgress)
+      .catch(() => {});
+  }, [userId, refreshKey]);
+
+  const handleRefresh = () => setRefreshKey(k => k + 1);
 
   return (
     <div style={{ padding: '2rem' }}>
       <h2>Your Performance</h2>
+      <button onClick={handleRefresh} style={{ marginBottom: '1rem' }}>
+        Refresh Stats
+      </button>
+      {topicStats.length === 0 && progress.length === 0 && (
+        <p>No stats available yet. Start practicing to generate data.</p>
+      )}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
         <div style={{ flex: '1 1 300px', height: 300 }}>
           <ResponsiveContainer>
