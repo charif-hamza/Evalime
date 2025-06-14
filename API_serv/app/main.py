@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import questions, auth, stats
+from .routers import questions, auth, stats, answers
 # In a full app, you would import other routers here too
 # from .routers import attempts
 
@@ -34,6 +34,7 @@ app.add_middleware(
 app.include_router(questions.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
 app.include_router(stats.router, prefix="/api")
+app.include_router(answers.router, prefix="/api")
 
 # --- Static File Serving ---
 # This assumes your index.html is in the root directory alongside the `app` folder.

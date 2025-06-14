@@ -72,7 +72,7 @@ function App() {
 
           {/* Protected Routes */}
           <Route path="/dashboard" element={user ? <DashboardPage user={user} /> : <Navigate to="/login" />} />
-          <Route path="/mcq/:evaluationId" element={user ? <MCQPage /> : <Navigate to="/login" />} />
+          <Route path="/mcq/:evaluationId" element={user ? <MCQPage user={user} /> : <Navigate to="/login" />} />
           <Route path="/stats" element={user ? <Suspense fallback={null}><StatsPage userId={1} /></Suspense> : <Navigate to="/login" />} />
           
           {/* Fallback Route */}
