@@ -43,10 +43,13 @@ export default function MCQPage({ user }) {
     if (userId) {
       const answers = Object.entries(userAnswers).flatMap(([qId, choices]) =>
         (Array.isArray(choices) ? choices : []).map(choiceId => ({
-          question_id: parseInt(qId, 10),
-          choice_id: choiceId
+          question_id: Number(qId),
+          choice_id: Number(choiceId)
         }))
       );
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('Submitting answers payload', { user_id: userId, answers });
+      }
       if (answers.length > 0) {
         submitAnswers(userId, answers).catch(() => {});
       }
