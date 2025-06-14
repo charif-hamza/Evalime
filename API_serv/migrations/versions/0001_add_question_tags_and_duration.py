@@ -29,10 +29,19 @@ def upgrade():
         sa.ForeignKeyConstraint(['tag_id'], ['question_tags.id']),
         sa.PrimaryKeyConstraint('question_id', 'tag_id')
     )
-    op.add_column('user_answers', sa.Column('duration_ms', sa.Integer(), nullable=True))
+    op.create_table(
+        'user_answers',
+        sa.Column('id', sa.Integer(), primary_key=True),
+        sa.Column('user_id', sa.Integer(), nullable=True),
+        sa.Column('question_id', sa.Integer(), nullable=True),
+        sa.Column('choice_id', sa.Integer(), nullable=True),
+        sa.Column('is_correct', sa.Boolean(), nullable=False, server_default='0'),
+        sa.Column('duration_ms', sa.Integer(), nullable=True),
+        sa.Column('answered_at', sa.DateTime(), nullable=False, server_default=sa.func.now())
+    )
 
 
 def downgrade():
-    op.drop_column('user_answers', 'duration_ms')
+    op.drop_table('user_answers')
     op.drop_table('question_tag_links')
     op.drop_table('question_tags')

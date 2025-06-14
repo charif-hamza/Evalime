@@ -1,5 +1,6 @@
 // src/pages/MCQPage.jsx
 import { useState, useEffect } from 'react';
+import Toast from '../components/Toast';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchQuestionsByEvalId } from '../services/api';
 import QuestionList from '../components/QuestionList';
@@ -15,6 +16,7 @@ export default function MCQPage() {
   
   const [userAnswers, setUserAnswers] = useState({});
   const [showCorrection, setShowCorrection] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     if (!evaluationId) return;
@@ -37,6 +39,7 @@ export default function MCQPage() {
 
   const handleCheckAnswers = () => {
     setShowCorrection(true);
+    setShowToast(true);
   };
 
   return (
@@ -69,6 +72,9 @@ export default function MCQPage() {
         <div className={`${styles.correctionMessage} correction-animate`}>
           Correction displayed! Green = correct, Red = your wrong answer.
         </div>
+      )}
+      {showToast && (
+        <Toast message="🍀 You just pushed your accuracy! View dashboard ▸" onClose={() => setShowToast(false)} />
       )}
     </div>
   );

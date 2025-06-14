@@ -1,7 +1,7 @@
 # app/models.py
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime, func
 from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import JSONB  # Add this import
+from sqlalchemy import JSON
 
 from .database import Base
 
@@ -20,7 +20,7 @@ class Evaluation(Base):
     __tablename__ = "evaluations"
 
     id = Column(Integer, primary_key=True, index=True)
-    summary_data = Column(JSONB, nullable=True)  # Stores evaluation metadata including ouvrage name
+    summary_data = Column(JSON, nullable=True)  # Stores evaluation metadata including ouvrage name
     
     # This establishes the one-to-many relationship
     # 'questions' will be a list of Question objects.
@@ -91,6 +91,7 @@ class UserAnswer(Base):
     choice_id = Column(Integer, ForeignKey("choices.id"))
     is_correct = Column(Boolean, default=False, nullable=False)
     duration_ms = Column(Integer, nullable=True)
+    answered_at = Column(DateTime, server_default=func.now(), nullable=False)
 
     user = relationship("User")
     question = relationship("Question")
@@ -103,3 +104,24 @@ Question.tags = relationship(
     secondary="question_tag_links",
     back_populates="questions",
 )
+
+
+class UserTopicStats(Base):
+    """Aggregated accuracy per tag for a user."""
+
+    __tablename__ = "user_topic_stats"
+
+    user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    tag_id = Column(Integer, ForeignKey("question_tags.id"), primary_key=True)
+    attempts = Column(Integer, nullable=False, default=0)
+    correct = Column(Integer, nullable=False, default=0)
+
+
+class UserDailyScore(Base):
+    """Daily score totals for sparkline charts."""
+
+    __tablename__ = "user_daily_scores"
+
+    user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    day = Column(DateTime, primary_key=True)
+    score = Column(Integer, nullable=False, default=0)
