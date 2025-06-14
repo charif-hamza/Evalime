@@ -8,10 +8,11 @@ from .. import models, schemas
 from ..database import get_db
 
 
-router = APIRouter(prefix="/answers", tags=["Answers"])
+router = APIRouter(prefix="/answers", tags=["Answers"], redirect_slashes=False)
 
 
-@router.post("/")
+@router.post("")
+@router.post("/")  # Accept both /answers and /answers/
 def submit_answers(payload: schemas.BulkUserAnswerCreate, db: Session = Depends(get_db)):
     """Persist user answers and mark correctness."""
     inserted = 0
