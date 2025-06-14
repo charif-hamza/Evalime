@@ -38,3 +38,33 @@ def get_questions_by_evaluation(db: Session, eval_id: int):
         question.choices.sort(key=lambda x: x.identifier)
 
     return questions
+
+
+def create_question_tag(db: Session, name: str) -> models.QuestionTag:
+    """Create a new question tag."""
+    tag = models.QuestionTag(name=name)
+    db.add(tag)
+    db.commit()
+    db.refresh(tag)
+    return tag
+
+
+def get_question_tag(db: Session, tag_id: int) -> models.QuestionTag | None:
+    return db.query(models.QuestionTag).filter(models.QuestionTag.id == tag_id).first()
+
+
+def update_question_tag(db: Session, tag_id: int, *, name: str) -> models.QuestionTag:
+    tag = db.get(models.QuestionTag, tag_id)
+    if not tag:
+        raise HTTPException(status_code=404, detail="Tag not found")
+    tag.name = name
+    db.commit()
+    db.refresh(tag)
+    return tag
+
+
+def delete_question_tag(db: Session, tag_id: int) -> None:
+    tag = db.get(models.QuestionTag, tag_id)
+    if tag:
+        db.delete(tag)
+        db.commit()

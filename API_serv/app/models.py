@@ -54,3 +54,52 @@ class Choice(Base):
     
     # Establishes relationship back to the parent Question
     question = relationship("Question", back_populates="choices")
+
+
+class QuestionTag(Base):
+    """A label that can be applied to questions."""
+
+    __tablename__ = "question_tags"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, nullable=False)
+
+    questions = relationship(
+        "Question",
+        secondary="question_tag_links",
+        back_populates="tags",
+    )
+
+
+class QuestionTagLink(Base):
+    """Many-to-many link table between questions and tags."""
+
+    __tablename__ = "question_tag_links"
+
+    question_id = Column(Integer, ForeignKey("questions.id"), primary_key=True)
+    tag_id = Column(Integer, ForeignKey("question_tags.id"), primary_key=True)
+
+
+class UserAnswer(Base):
+    """Stores a user's answer for a question."""
+
+    __tablename__ = "user_answers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    question_id = Column(Integer, ForeignKey("questions.id"))
+    choice_id = Column(Integer, ForeignKey("choices.id"))
+    is_correct = Column(Boolean, default=False, nullable=False)
+    duration_ms = Column(Integer, nullable=True)
+
+    user = relationship("User")
+    question = relationship("Question")
+    choice = relationship("Choice")
+
+
+# Establish many-to-many relationship on Question now that QuestionTag exists
+Question.tags = relationship(
+    "QuestionTag",
+    secondary="question_tag_links",
+    back_populates="questions",
+)
