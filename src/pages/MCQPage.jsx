@@ -62,8 +62,7 @@ export default function MCQPage({ user }) {
         score: overall,
       };
         if (import.meta.env.MODE !== 'production') {
-          console.log('Submitting result payload', payload);
-        }
+
       try {
         await submitResult(payload);
       } catch {
