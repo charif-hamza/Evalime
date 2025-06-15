@@ -5,15 +5,18 @@ from fastapi import APIRouter
 
 from .. import models
 from ..database import SessionLocal
-from ..aggregation import refresh_user_topic_stats, refresh_user_daily_scores
 
 router = APIRouter(prefix="/stats", tags=["Stats"])
 
 CACHE_TTL = 3600  # 1 hour
 
+def invalidate_caches() -> None:
+    """Clear cached stats so new data is returned on next request."""
+    _cached_topic_stats.cache_clear()
+    _cached_progress.cache_clear()
+
 @lru_cache(maxsize=128)
 def _cached_topic_stats(user_id: int, ts: int):
-    refresh_user_topic_stats()
     db = SessionLocal()
     try:
         rows = (
@@ -40,7 +43,6 @@ def get_topic_stats(user_id: int, nocache: bool = False):
 
 @lru_cache(maxsize=128)
 def _cached_progress(user_id: int, ts: int):
-    refresh_user_daily_scores()
     db = SessionLocal()
     try:
         rows = (

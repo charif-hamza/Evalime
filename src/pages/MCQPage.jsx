@@ -39,7 +39,7 @@ export default function MCQPage({ user }) {
       .finally(() => setIsLoading(false));
   }, [evaluationId]);
 
-  const handleCheckAnswers = () => {
+  const handleCheckAnswers = async () => {
     if (userId) {
       const answers = Object.entries(userAnswers).flatMap(([qId, choices]) =>
         (Array.isArray(choices) ? choices : []).map(choiceId => ({
@@ -51,7 +51,11 @@ export default function MCQPage({ user }) {
         console.log('Submitting answers payload', { user_id: userId, answers });
       }
       if (answers.length > 0) {
-        submitAnswers(userId, answers).catch(() => {});
+        try {
+          await submitAnswers(userId, answers);
+        } catch {
+          // ignore failures
+        }
       }
     }
     setShowCorrection(true);
