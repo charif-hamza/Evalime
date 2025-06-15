@@ -61,9 +61,7 @@ export default function MCQPage({ user }) {
         date: new Date().toISOString().split('T')[0],
         score: overall,
       };
-      if (import.meta.env.MODE !== 'production') {
-        console.log('Submitting result payload', payload);
-      }
+
       try {
         await submitResult(payload);
       } catch {
