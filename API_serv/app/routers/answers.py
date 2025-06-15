@@ -6,6 +6,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from .. import models, schemas
 from ..database import get_db
+from ..aggregation import update_user_topic_stats, update_user_daily_scores
+from . import stats
 
 
 router = APIRouter(prefix="/answers", tags=["Answers"], redirect_slashes=False)
@@ -31,6 +33,10 @@ def submit_answers(payload: schemas.BulkUserAnswerCreate, db: Session = Depends(
         inserted += 1
     try:
         db.commit()
+        update_user_topic_stats(db, payload.user_id)
+        update_user_daily_scores(db, payload.user_id)
+        db.commit()
+        stats.invalidate_caches()
     except SQLAlchemyError as exc:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(exc))
