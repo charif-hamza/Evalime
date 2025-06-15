@@ -3,6 +3,7 @@
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException
+from datetime import date
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
@@ -18,7 +19,6 @@ def submit_result(payload: schemas.UserResultCreate, db: Session = Depends(get_d
     result = models.UserResult(
         user_id=payload.user_id,
         bank_name=payload.bank_name,
-        day=datetime.fromisoformat(payload.date),
 
     )
     db.add(result)
@@ -28,6 +28,7 @@ def submit_result(payload: schemas.UserResultCreate, db: Session = Depends(get_d
         db.rollback()
         raise HTTPException(status_code=500, detail=str(exc))
     return {"inserted": 1}
+
 
 
     ]

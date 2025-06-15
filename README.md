@@ -46,11 +46,7 @@ cd API_serv
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in `API_serv` with the following variables:
 
-```
-DATABASE_URL=postgresql://user:password@localhost/dbname
-JWT_SECRET=your_secret_key
 ```
 
 ### 3. Run the Development Servers
