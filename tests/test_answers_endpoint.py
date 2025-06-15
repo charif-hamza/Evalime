@@ -38,19 +38,34 @@ def test_submit_answers():
     eval = models.Evaluation(summary_data={})
     question = models.Question(question_text="q", evaluation=eval)
     choice = models.Choice(identifier="A", choice_text="a", is_correct_solution=True, question=question)
-    db.add_all([user, eval, question, choice])
+    tag = models.QuestionTag(name="t")
+    db.add_all([user, eval, question, choice, tag])
     db.commit()
     db.refresh(user)
     db.refresh(question)
     db.refresh(choice)
+    db.refresh(tag)
+    user_id = user.id
+    question_id = question.id
+    choice_id = choice.id
+    tag_id = tag.id
+    link = models.QuestionTagLink(question_id=question_id, tag_id=tag_id)
+    db.add(link)
+    db.commit()
     db.close()
 
-    payload = {"user_id": user.id, "answers": [{"question_id": question.id, "choice_id": choice.id}]}
+    payload = {"user_id": user_id, "answers": [{"question_id": question_id, "choice_id": choice_id}]}
     resp = client.post("/api/answers", json=payload)
     assert resp.status_code == 200
     assert resp.json().get("inserted") == 1
 
     db2 = TestingSessionLocal()
-    stored = db2.query(models.UserAnswer).filter_by(user_id=user.id).one()
+    stored = db2.query(models.UserAnswer).filter_by(user_id=user_id).one()
     assert stored.is_correct is True
+    # check aggregated stats
+    topic = db2.query(models.UserTopicStats).filter_by(user_id=user_id, tag_id=tag_id).one()
+    assert topic.attempts == 1
+    assert topic.correct == 1
+    daily = db2.query(models.UserDailyScore).filter_by(user_id=user_id).one()
+    assert daily.score == 1
     db2.close()
