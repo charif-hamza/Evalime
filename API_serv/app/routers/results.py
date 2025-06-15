@@ -15,7 +15,6 @@ def submit_result(payload: schemas.UserResultCreate, db: Session = Depends(get_d
     result = models.UserResult(
         user_id=payload.user_id,
         bank_name=payload.bank_name,
-        day=payload.date,
         score=int(round(payload.score * 100))
     )
     db.add(result)

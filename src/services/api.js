@@ -135,4 +135,5 @@ export async function submitResult({ userId, bankName, date, score }) {
     throw new Error(errorData.detail || 'Failed to submit result');
   }
   return response.json();
+
 }
