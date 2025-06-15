@@ -46,10 +46,12 @@ cd API_serv
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in `API_serv` with at least the following variable:
+Create a `.env` file in `API_serv` with at least the following variables:
 
 ```
 DATABASE_URL=postgresql://user:password@localhost/dbname
+# Allowed origins for CORS as a comma-separated list
+ALLOWED_ORIGINS=http://localhost:5173
 ```
 
 ### 3. Run the Development Servers
