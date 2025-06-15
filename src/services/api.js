@@ -105,10 +105,16 @@ export async function fetchProgress(userId, { nocache = false } = {}) {
 }
 
 export async function submitAnswers(userId, answers) {
+  // Convert answers to use camelCase keys
+  const formattedAnswers = answers.map(ans => ({
+    questionId: ans.question_id,
+    choiceId: ans.choice_id,
+    durationMs: ans.duration_ms // if present, else undefined
+  }));
   const response = await fetch('/api/answers', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user_id: userId, answers })
+    body: JSON.stringify({ userId, answers: formattedAnswers })
   });
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
