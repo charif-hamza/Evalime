@@ -46,10 +46,7 @@ cd API_serv
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in `API_serv` with at least the following variable:
 
-```
-DATABASE_URL=postgresql://user:password@localhost/dbname
 ```
 
 ### 3. Run the Development Servers
@@ -71,9 +68,16 @@ The Vite dev server proxies API calls to the FastAPI server as configured in `vi
 
 Run `npm run build` to generate optimized static files in the `dist` directory. You can serve these files with any static server and run the FastAPI app separately.
 
-## Linting
+## Linting and Tests
 
-Use `npm run lint` to check the front‑end code with ESLint.
+Install all dependencies and run the checks using the provided `Makefile`:
+
+```bash
+make setup
+make ci   # runs linting and the pytest suite
+```
+
+`make ci` runs `npm run lint` followed by `pytest`.
 
 ---
 

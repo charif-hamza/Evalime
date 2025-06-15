@@ -1,4 +1,5 @@
 import os
+os.environ.setdefault("JWT_SECRET", "testsecret")
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -87,4 +88,8 @@ def test_results_submission_and_listing():
     resp = client.get(f"/api/results/{user_id}")
     assert resp.status_code == 200
     data = resp.json()
-    assert any(r["bankName"] == "Bank" and abs(r["score"] - 0.75) < 1e-6 for r in data)
+    assert isinstance(data, list)
+    assert len(data) == 1
+    result = data[0]
+    assert result["bankName"] == "Bank"
+    assert abs(result["score"] - 0.75) < 1e-6

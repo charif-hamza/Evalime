@@ -75,3 +75,11 @@ class UserResultCreate(BaseModel):
     score: float
 
     model_config = ConfigDict(populate_by_name=True)
+
+
+class UserResult(BaseModel):
+    bank_name: str = Field(..., alias="bankName")
+    date: str
+    score: float
+
+    model_config = ConfigDict(populate_by_name=True, from_attributes=True)

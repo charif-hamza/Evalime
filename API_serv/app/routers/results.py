@@ -3,8 +3,7 @@
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import Session
+
 
 from .. import models, schemas
 from ..database import get_db
@@ -18,8 +17,7 @@ def submit_result(payload: schemas.UserResultCreate, db: Session = Depends(get_d
     result = models.UserResult(
         user_id=payload.user_id,
         bank_name=payload.bank_name,
-        day=datetime.fromisoformat(payload.date),
-        score=int(round(payload.score * 100)),
+
     )
     db.add(result)
     try:
@@ -30,19 +28,5 @@ def submit_result(payload: schemas.UserResultCreate, db: Session = Depends(get_d
     return {"inserted": 1}
 
 
-@router.get("/{user_id}")
-def list_results(user_id: int, db: Session = Depends(get_db)):
-    rows = (
-        db.query(models.UserResult)
-        .filter(models.UserResult.user_id == user_id)
-        .order_by(models.UserResult.day.desc())
-        .all()
-    )
-    return [
-        {
-            "bankName": r.bank_name,
-            "date": r.day.isoformat(),
-            "score": r.score / 100,
-        }
-        for r in rows
+
     ]
