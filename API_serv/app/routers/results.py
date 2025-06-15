@@ -30,5 +30,4 @@ def submit_result(payload: schemas.UserResultCreate, db: Session = Depends(get_d
     return {"inserted": 1}
 
 
-
     ]

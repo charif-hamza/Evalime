@@ -1,4 +1,5 @@
 import os
+os.environ.setdefault("JWT_SECRET", "testsecret")
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
