@@ -136,3 +136,9 @@
   cursor: not-allowed;
   box-shadow: none;
 }
+
+.scoreDisplay {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}

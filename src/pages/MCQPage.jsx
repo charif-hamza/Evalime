@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import Toast from '../components/Toast';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchQuestionsByEvalId, submitAnswers } from '../services/api';
-import { getUserIdFromToken } from '../utils';
+import { fetchQuestionsByEvalId, fetchEvaluationsList, submitResult } from '../services/api';
+import { getUserIdFromToken, calculateQuestionScore } from '../utils';
 import QuestionList from '../components/QuestionList';
 import styles from './MCQPage.module.css';
 
@@ -15,6 +15,8 @@ export default function MCQPage({ user }) {
   const [questions, setQuestions] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const [evaluationName, setEvaluationName] = useState('');
   
   const [userAnswers, setUserAnswers] = useState({});
   const [showCorrection, setShowCorrection] = useState(false);
@@ -37,25 +39,35 @@ export default function MCQPage({ user }) {
         setQuestions([]);
       })
       .finally(() => setIsLoading(false));
+    // fetch evaluation name for summary
+    fetchEvaluationsList()
+      .then(list => {
+        const ev = Array.isArray(list) ? list.find(e => String(e.id) === String(evaluationId)) : null;
+        if (ev) setEvaluationName(ev.ouvrage || '');
+      })
+      .catch(() => {});
   }, [evaluationId]);
 
   const handleCheckAnswers = async () => {
     if (userId) {
-      const answers = Object.entries(userAnswers).flatMap(([qId, choices]) =>
-        (Array.isArray(choices) ? choices : []).map(choiceId => ({
-          question_id: Number(qId),
-          choice_id: Number(choiceId)
-        }))
+      const questionScores = questions.map(q =>
+        calculateQuestionScore(q, userAnswers[q.question_id])
       );
+      const totalScore = questionScores.reduce((a, b) => a + b, 0);
+      const overall = questionScores.length ? totalScore / questionScores.length : 0;
+      const payload = {
+        userId,
+        bankName: evaluationName,
+        date: new Date().toISOString().split('T')[0],
+        score: overall,
+      };
       if (process.env.NODE_ENV !== 'production') {
-        console.log('Submitting answers payload', { user_id: userId, answers });
+        console.log('Submitting result payload', payload);
       }
-      if (answers.length > 0) {
-        try {
-          await submitAnswers(userId, answers);
-        } catch {
-          // ignore failures
-        }
+      try {
+        await submitResult(payload);
+      } catch {
+        // ignore failures
       }
     }
     setShowCorrection(true);
