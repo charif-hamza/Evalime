@@ -52,11 +52,17 @@ class Question(BaseModel):
 
 # --- Answer Schemas ---
 class UserAnswerCreate(BaseModel):
-    question_id: int
-    choice_id: int
-    duration_ms: int | None = None
+    # Accept either camelCase or snake_case keys from the client
+    question_id: int = Field(..., alias="questionId")
+    choice_id: int = Field(..., alias="choiceId")
+    duration_ms: int | None = Field(None, alias="durationMs")
+
+    model_config = ConfigDict(populate_by_name=True)
 
 
 class BulkUserAnswerCreate(BaseModel):
-    user_id: int
+    user_id: int = Field(..., alias="userId")
     answers: List[UserAnswerCreate]
+
+    # Allow either field names or aliases in incoming payloads
+    model_config = ConfigDict(populate_by_name=True)
