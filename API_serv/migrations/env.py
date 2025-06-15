@@ -1,15 +1,16 @@
 from logging.config import fileConfig
-from sqlalchemy import engine_from_config, pool
-from alembic import context
 
-from API_serv.app import models
+from alembic import context
+from sqlalchemy import engine_from_config, pool
+
 from API_serv.app.database import Base
 
 config = context.config
-try:
-    fileConfig(config.config_file_name)
-except KeyError:
-    pass
+if config.config_file_name is not None:
+    try:
+        fileConfig(config.config_file_name)
+    except KeyError:
+        pass
 
 target_metadata = Base.metadata
 

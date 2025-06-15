@@ -1,4 +1,5 @@
 // src/pages/MCQPage.jsx
+/* global process */
 import { useState, useEffect } from 'react';
 import Toast from '../components/Toast';
 import { useParams, useNavigate } from 'react-router-dom';
