@@ -125,3 +125,15 @@ class UserDailyScore(Base):
     user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
     day = Column(DateTime, primary_key=True)
     score = Column(Integer, nullable=False, default=0)
+
+
+class UserResult(Base):
+    """Stores aggregated score per evaluation attempt."""
+
+    __tablename__ = "user_results"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    bank_name = Column(String, nullable=False)
+    day = Column(DateTime, nullable=False)
+    score = Column(Integer, nullable=False)

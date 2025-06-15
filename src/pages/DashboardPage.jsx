@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react';
 import StatsPage from './StatsPage';
 import { getUserIdFromToken } from '../utils';
 import { useNavigate } from 'react-router-dom';
-import { fetchEvaluationsList } from '../services/api';
+import { fetchEvaluationsList, fetchResults } from '../services/api';
 import styles from './DashboardPage.module.css';
 
 export default function DashboardPage({ user }) {
@@ -13,6 +13,7 @@ export default function DashboardPage({ user }) {
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
 
   const userId = getUserIdFromToken(user?.token);
 
@@ -38,6 +39,15 @@ export default function DashboardPage({ user }) {
       })
       .finally(() => setIsLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!userId) return;
+    fetchResults(userId)
+      .then(data => {
+        setResults(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {});
+  }, [userId]);
 
   const handleSelectEvaluation = (id) => {
     navigate(`/mcq/${id}`);
@@ -93,6 +103,29 @@ export default function DashboardPage({ user }) {
         <div style={{ marginTop: '3rem' }}>
           <h2>Your Analytics</h2>
           <StatsPage userId={userId} />
+          {results.length > 0 && (
+            <div style={{ marginTop: '2rem' }}>
+              <h3>Recent MCQ History</h3>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    <th>Bank</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.map((r, idx) => (
+                    <tr key={idx}>
+                      <td>{r.bankName}</td>
+                      <td>{r.date}</td>
+                      <td>{Math.round(r.score * 100)}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       )}
     </div>

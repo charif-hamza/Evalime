@@ -122,3 +122,26 @@ export async function submitAnswers(userId, answers) {
   }
   return response.json();
 }
+
+export async function submitResult({ userId, bankName, date, score }) {
+  const payload = { userId, bankName, date, score };
+  const response = await fetch('/api/results', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || 'Failed to submit result');
+  }
+  return response.json();
+}
+
+export async function fetchResults(userId) {
+  const response = await fetch(`/api/results/${userId}`);
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || 'Failed to fetch results');
+  }
+  return response.json();
+}

@@ -69,3 +69,22 @@ def test_submit_answers():
     daily = db2.query(models.UserDailyScore).filter_by(user_id=user_id).one()
     assert daily.score == 1
     db2.close()
+
+
+def test_results_submission_and_listing():
+    db = TestingSessionLocal()
+    user = models.User(username="u2", hashed_password="h")
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    user_id = user.id
+    db.close()
+
+    payload = {"userId": user_id, "bankName": "Bank", "date": "2025-01-01", "score": 0.75}
+    resp = client.post("/api/results", json=payload)
+    assert resp.status_code == 200
+
+    resp = client.get(f"/api/results/{user_id}")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert any(r["bankName"] == "Bank" and abs(r["score"] - 0.75) < 1e-6 for r in data)

@@ -66,3 +66,12 @@ class BulkUserAnswerCreate(BaseModel):
 
     # Allow either field names or aliases in incoming payloads
     model_config = ConfigDict(populate_by_name=True)
+
+
+class UserResultCreate(BaseModel):
+    user_id: int = Field(..., alias="userId")
+    bank_name: str = Field(..., alias="bankName")
+    date: str
+    score: float
+
+    model_config = ConfigDict(populate_by_name=True)

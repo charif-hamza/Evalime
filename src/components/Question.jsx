@@ -1,5 +1,6 @@
 // src/components/Question.jsx
 import styles from './Question.module.css';
+import { calculateQuestionScore } from '../utils';
 
 function Question({ question, index, userAnswer, onSelect, showCorrection }) {
   if (!question) return null;
@@ -67,6 +68,11 @@ function Question({ question, index, userAnswer, onSelect, showCorrection }) {
           );
         })}
       </ul>
+      {showCorrection && (
+        <div className={styles.scoreDisplay}>
+          Score: {calculateQuestionScore(question, userAnswer).toFixed(2)}
+        </div>
+      )}
     </div>
   );
 }
