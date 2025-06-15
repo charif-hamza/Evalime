@@ -135,13 +135,5 @@ export async function submitResult({ userId, bankName, date, score }) {
     throw new Error(errorData.detail || 'Failed to submit result');
   }
   return response.json();
-}
 
-export async function fetchResults(userId) {
-  const response = await fetch(`/api/results/${userId}`);
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || 'Failed to fetch results');
-  }
-  return response.json();
 }
