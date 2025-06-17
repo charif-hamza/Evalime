@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { login, register } from './services/api';
 
+import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
@@ -51,32 +53,34 @@ function App() {
   };
 
   return (
-    <div className={`app-container ${theme}`}>
-      {user && (
-        <header className="app-header">
-           <span className="header-logo" onClick={() => navigate('/dashboard')}>EvaLime MCQ</span>
-           <div className="user-info">
-             <button className="theme-toggle" onClick={toggleTheme}>{theme === 'light' ? 'Dark' : 'Light'} Mode</button>
-             <span>Hello, <strong>{user.username}</strong></span>
-             <button onClick={handleLogout} className="logout-btn">Logout</button>
-           </div>
-        </header>
-      )}
-      <main>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={!user ? <LandingPage onStart={() => { setMode('login'); navigate('/login'); }} /> : <Navigate to="/dashboard" />} />
-          <Route path="/login" element={!user ? <AuthPage onAuth={handleAuth} mode={mode} setMode={setMode} /> : <Navigate to="/dashboard" />} />
+    <Layout user={user} theme={theme} toggleTheme={toggleTheme} handleLogout={handleLogout}>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={!user ? <LandingPage onStart={() => { setMode('login'); navigate('/login'); }} /> : <Navigate to="/dashboard" />} />
+        <Route path="/login" element={!user ? <AuthPage onAuth={handleAuth} mode={mode} setMode={setMode} /> : <Navigate to="/dashboard" />} />
 
-          {/* Protected Routes */}
-          <Route path="/dashboard" element={user ? <DashboardPage /> : <Navigate to="/login" />} />
-          <Route path="/mcq/:evaluationId" element={user ? <MCQPage /> : <Navigate to="/login" />} />
-          
-          {/* Fallback Route */}
-          <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} />} />
-        </Routes>
-      </main>
-    </div>
+        {/* Protected Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute user={user}>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mcq/:evaluationId"
+          element={
+            <ProtectedRoute user={user}>
+              <MCQPage />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Fallback Route */}
+        <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} />} />
+      </Routes>
+    </Layout>
   );
 }
 

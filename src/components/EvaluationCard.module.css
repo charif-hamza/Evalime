@@ -1,0 +1,71 @@
+/* src/components/EvaluationCard.module.css */
+.evaluationCard {
+  background: var(--card-background);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  border: 1px solid var(--border-color);
+}
+
+.evaluationCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.cardHeader {
+  margin-bottom: 1rem;
+}
+
+.cardHeader h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-bottom: 0.5rem;
+}
+
+.cardBadge {
+  background: #ecfdf5;
+  color: #047857;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.cardDetails {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+  margin-bottom: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  color: var(--secondary-text-color);
+}
+
+.cardFooter button {
+  background: var(--primary-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.evaluationCard:hover .cardFooter button {
+  background: var(--darker-green);
+} 

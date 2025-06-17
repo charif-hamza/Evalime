@@ -31,14 +31,14 @@
 
 .questionNumber {
   font-weight: 700;
-  color: #3b82f6;
-  font-size: 1.2rem; /* Slightly increased font size */
-  background: #eef2ff; /* Lighter blue background */
-  border-radius: 10px; /* More rounded */
-  padding: 0.4rem 1.2rem; /* Adjusted padding */
-  margin-right: 1.5rem; /* Increased margin */
+  color: var(--primary-green);
+  font-size: 1.2rem;
+  background: #ecfdf5; /* light green background */
+  border-radius: 10px;
+  padding: 0.4rem 1.2rem;
+  margin-right: 1.5rem;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1); /* Added subtle shadow */
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
 }
 
 .questionText {
@@ -49,6 +49,18 @@
   font-weight: 500;
 }
 
+.questionImageContainer {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.questionImage {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
 .choicesList {
   list-style: none;
   padding: 0;
@@ -56,32 +68,54 @@
 }
 
 .choice {
-  padding: 1.2rem 1.5rem; /* Increased padding */
-  border: 1px solid #e0e0e0; /* Subtle border */
-  border-radius: 12px; /* More rounded */
-  margin-bottom: 1rem; /* Increased margin */
-  font-size: 1.1rem; /* Slightly increased font size */
-  background: #f9fafb; /* Lighter background */
-  transition: all 0.2s ease-in-out; /* Smoother transition */
+  /* Reset button styles */
+  background: #f9fafb;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+  width: 100%;
+  
+  padding: 1.2rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
-  font-weight: 400; /* Lighter font weight */
-  color: #333333; /* Darker text color */
+  font-weight: 400;
+  color: #333333;
+}
+
+.choice:disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+.choiceIdentifier {
+  margin-right: 1rem;
+}
+
+.choiceImage {
+  display: block;
+  max-width: 200px;
+  max-height: 120px;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
 }
 
 .choice:hover:not(.correct):not(.incorrect):not(.selected) {
-  border-color: #3b82f6; /* Highlight border on hover */
-  background: #eef2ff; /* Lighter blue background on hover */
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1); /* More prominent shadow on hover */
+  border-color: var(--primary-green); /* Highlight border on hover */
+  background: #ecfdf5; /* light green background */
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.1);
 }
 
 .selected {
-  border-color: #3b82f6; /* Blue border for selected */
-  background: #eef2ff; /* Lighter blue background for selected */
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Blue glow for selected */
-  font-weight: 500; /* Bolder font for selected */
+  border-color: var(--primary-green); /* Green border for selected */
+  background: #ecfdf5; /* light green background */
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+  font-weight: 500;
 }
 
 .correct {
@@ -93,6 +127,8 @@
 }
 
 .incorrect {
+  background-color: #ffebee; /* Light red for incorrect answers */
+  border-left: 5px solid #e57373;
   border-color: #ef4444; /* Red border for incorrect */
   background: linear-gradient(90deg, #fef2f2 60%, #fee2e2 100%); /* Red gradient */
   color: #b91c1c; /* Darker red text */
@@ -100,29 +136,35 @@
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2); /* Red glow for incorrect */
 }
 
+.statusIcon {
+  margin-left: auto;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 .checkBtn {
-  background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%); /* Deeper blue gradient */
+  background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%); /* green gradient */
   color: #fff;
   font-weight: 700;
   border: none;
   border-radius: 10px;
-  padding: 0.9rem 2.5rem; /* Increased padding */
-  font-size: 1.1rem; /* Slightly increased font size */
+  padding: 0.9rem 2.5rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  margin-top: 1.5rem; /* Increased margin */
-  transition: background 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out; /* Smoother transitions */
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  margin-top: 1.5rem;
+  transition: background 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
   display: block;
-  width: 100%; /* Make button full width */
-  max-width: 300px; /* Limit max width */
-  margin-left: auto; /* Center the button */
-  margin-right: auto; /* Center the button */
+  width: 100%;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .checkBtn:hover:not(:disabled) {
-  background: linear-gradient(90deg, #2563eb 0%, #1e3a8a 100%); /* Darker gradient on hover */
-  transform: translateY(-2px); /* Slight lift effect */
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  background: linear-gradient(90deg, #16a34a 0%, #065f46 100%); /* darker green gradient */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
 }
 
 .checkBtn:active:not(:disabled) {
@@ -135,4 +177,65 @@
   color: #9ca3af; /* Grey text when disabled */
   cursor: not-allowed;
   box-shadow: none;
+}
+
+.explanationSection {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.explainButton {
+  background-color: var(--primary-green);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+}
+
+.explainButton:hover:not(:disabled) {
+  background-color: var(--darker-green);
+  transform: translateY(-2px);
+}
+
+.explainButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.explanationContent {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.explanationContent h4 {
+  margin-top: 0;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 700;
+  border-bottom: 2px solid var(--primary-green);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

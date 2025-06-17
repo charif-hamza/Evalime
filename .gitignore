@@ -37,3 +37,7 @@ venv/
 # Database
 *.db
 *.sqlite3
+
+# Environment
+.env
+.env*.local

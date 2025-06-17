@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchQuestionsByEvalId } from '../services/api';
 import QuestionList from '../components/QuestionList';
+import Button from '../components/Button';
 import styles from './MCQPage.module.css';
 
 export default function MCQPage() {
@@ -57,12 +58,11 @@ export default function MCQPage() {
       </div>
 
       {questions && Array.isArray(questions) && questions.length > 0 && !showCorrection && (
-        <button
-          className={`${styles.checkAnswersBtn} btn-animate`}
+        <Button
           onClick={handleCheckAnswers}
         >
           Check All Answers
-        </button>
+        </Button>
       )}
 
       {showCorrection && (

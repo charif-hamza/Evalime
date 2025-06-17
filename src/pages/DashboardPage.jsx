@@ -2,6 +2,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchEvaluationsList } from '../services/api';
+import EvaluationCard from '../components/EvaluationCard';
+import useDebounce from '../hooks/useDebounce';
 import styles from './DashboardPage.module.css';
 
 export default function DashboardPage() {
@@ -11,15 +13,16 @@ export default function DashboardPage() {
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 300); // 300ms delay
 
   // Filter evaluations by search term (matches ouvrage, the first line in the card)
   const filteredEvaluations = useMemo(() => {
     return evaluations.filter(ev => {
       const normalizedOuvrage = (ev.ouvrage || '').replace(/:+/g, '').trim();
-      const searchMatch = !searchTerm || normalizedOuvrage.toLowerCase().includes(searchTerm.toLowerCase());
+      const searchMatch = !debouncedSearchTerm || normalizedOuvrage.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
       return searchMatch;
     });
-  }, [evaluations, searchTerm]);
+  }, [evaluations, debouncedSearchTerm]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -65,19 +68,7 @@ export default function DashboardPage() {
         {error && <p className={`${styles.statusMessage} ${styles.error}`}>{error}</p>}
         {!isLoading && !error && filteredEvaluations.length > 0 && (
           filteredEvaluations.map(ev => (
-            <div key={ev.id} className={styles.evaluationCard} onClick={() => handleSelectEvaluation(ev.id)}>
-              <div className={styles.cardHeader}>
-                 <h3>{(ev.ouvrage || '').replace(/:+/g, '').trim()}</h3>
-                 {ev.epreuve && <span className={styles.cardBadge}>{(ev.epreuve || '').replace(/:+/g, '').trim()}</span>}
-              </div>
-              <p className={styles.cardDetails}>
-                {ev.epreuve && <span>{(ev.epreuve || '').replace(/:+/g, '').trim()}</span>}
-              </p>
-              <div className={styles.cardFooter}>
-                <span>{(ev.total_question || '').replace(/:+/g, '').trim()} Questions</span>
-                <button>Start Practice &rarr;</button>
-              </div>
-            </div>
+            <EvaluationCard key={ev.id} evaluation={ev} onSelect={handleSelectEvaluation} />
           ))
         )}
         {!isLoading && !error && filteredEvaluations.length === 0 && (

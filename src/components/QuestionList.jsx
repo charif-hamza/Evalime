@@ -4,17 +4,20 @@ import styles from './QuestionList.module.css';
 
 function QuestionList({ questions, isLoading, error, userAnswers, setUserAnswers, showCorrection }) {
 
-  // Allow multiple answers per question
+  // Allow multiple answers per question (toggle selection)
   const handleSelectAnswer = (questionId, choiceId) => {
     setUserAnswers(prev => {
-      const prevAnswers = prev[questionId] || [];
-      // Toggle selection
-      const alreadySelected = prevAnswers.includes(choiceId);
+      const currentChoices = prev[questionId] || [];
+      const isAlreadySelected = currentChoices.includes(choiceId);
+
+      // Toggle the choice: remove if selected, add if not
+      const updatedChoices = isAlreadySelected
+        ? currentChoices.filter(id => id !== choiceId)
+        : [...currentChoices, choiceId];
+
       return {
         ...prev,
-        [questionId]: alreadySelected
-          ? prevAnswers.filter(id => id !== choiceId)
-          : [...prevAnswers, choiceId]
+        [questionId]: updatedChoices,
       };
     });
   };

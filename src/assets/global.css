@@ -1,12 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* src/assets/global.css */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); /* Changed font to Roboto */
 
 :root {
   /* Brand colors */
-  --primary-blue: #3b82f6;
-  --darker-blue: #2563eb;
-  --primary-green: #10b981;
-  --darker-green: #059669;
+  --primary-blue: #22c55e; /* Rebranded primary color (emerald 500) */
+  --darker-blue: #16a34a; /* Darker shade of brand green */
+  --primary-green: #22c55e; /* Synced with brand primary */
+  --darker-green: #16a34a; /* Synced darker */
 }
 
 /* Light theme variables */
@@ -17,8 +21,8 @@ body.light {
   --border-color: #e0e0e0;
   --card-background: #ffffff;
   --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  --gradient-start: #eef2ff;
-  --gradient-end: #dcfce7;
+  --gradient-start: #f0fdf4; /* very light emerald */
+  --gradient-end: #bbf7d0; /* light emerald */
   --header-bg: rgba(255, 255, 255, 0.8);
 }
 
@@ -30,8 +34,8 @@ body.dark {
   --border-color: #374151;
   --card-background: #111827;
   --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  --gradient-start: #1e3a8a;
-  --gradient-end: #047857;
+  --gradient-start: #134e4a; /* dark emerald 900 */
+  --gradient-end: #065f46; /* emerald 800 */
   --header-bg: rgba(31, 41, 55, 0.8);
 }
 
@@ -79,30 +83,30 @@ header p {
 }
 
 .check-answers-btn {
-  background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-green) 100%); /* Applied color variables */
+  background: linear-gradient(90deg, var(--primary-green) 0%, var(--darker-green) 100%); /* Green gradient */
   color: #fff;
   font-weight: 700;
-  font-size: 1.2rem; /* Slightly increased font size */
-  padding: 1rem 3rem; /* Increased padding */
+  font-size: 1.2rem;
+  padding: 1rem 3rem;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); /* Updated shadow */
-  transition: background 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out; /* Smoother transitions */
-  margin: 2.5rem auto 0 auto; /* Adjusted margin */
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+  transition: background 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin: 2.5rem auto 0 auto;
   display: block;
-  max-width: 300px; /* Limited max width */
+  max-width: 300px;
 }
 
 .check-answers-btn:hover:not(:disabled) {
-  background: linear-gradient(90deg, var(--darker-blue) 0%, var(--darker-green) 100%); /* Darker gradient on hover */
-  transform: translateY(-2px); /* Slight lift effect */
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  background: linear-gradient(90deg, var(--darker-green) 0%, #065f46 100%); /* Darker gradient on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
 }
 
 .check-answers-btn:active:not(:disabled) {
-  transform: translateY(0); /* Return to original position on click */
-  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(22, 163, 74, 0.3);
 }
 
 .check-answers-btn:disabled {
@@ -140,32 +144,32 @@ header p {
 
 .auth-form input:focus {
   outline: none;
-  border-color: var(--primary-blue); /* Highlight color on focus */
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Glow effect on focus */
+  border-color: var(--primary-blue); /* uses green now */
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25); /* Green glow effect on focus */
 }
 
 .auth-form button {
-  background: var(--primary-blue); /* Applied primary blue variable */
+  background: var(--primary-blue); /* uses green now */
   color: #fff;
-  font-weight: 700; /* Bolder font weight */
+  font-weight: 700;
   border: none;
-  border-radius: 10px; /* More rounded corners */
-  padding: 1rem 0; /* Increased padding */
-  font-size: 1.15rem; /* Slightly increased font size */
+  border-radius: 10px;
+  padding: 1rem 0;
+  font-size: 1.15rem;
   cursor: pointer;
-  transition: background 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out; /* Added transitions */
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+  transition: background 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.25);
 }
 
 .auth-form button:hover {
-  background: var(--darker-blue); /* Darker blue on hover */
-  transform: translateY(-2px); /* Slight lift effect */
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+  background: var(--darker-blue); /* uses darker green now */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3);
 }
 
 .auth-form button:active {
-  transform: translateY(0); /* Return to original position on click */
-  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.2);
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(22, 163, 74, 0.2);
 }
 
 .auth-error {
@@ -183,15 +187,15 @@ header p {
 
 .auth-switch button {
   background: none;
-  color: var(--primary-blue); /* Applied primary blue variable */
+  color: var(--primary-blue);
   border: none;
   cursor: pointer;
   font-weight: 600;
   padding: 0;
-  text-decoration: underline; /* Underline the switch button */
-  transition: color 0.2s ease-in-out; /* Added transition */
+  text-decoration: underline;
+  transition: color 0.2s ease-in-out;
 }
 
 .auth-switch button:hover {
-  color: var(--darker-blue); /* Darker blue on hover */
+  color: var(--darker-blue);
 }
