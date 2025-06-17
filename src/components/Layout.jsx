@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 const Layout = ({ user, theme, toggleTheme, handleLogout, children }) => {
   const navigate = useNavigate();
 
+  const containerClass = user ? `app-container ${theme}` : '';
   return (
-    <div className={`app-container ${theme}`}>
+    <div className={containerClass}>
       {user && (
         <header className="app-header">
           <span className="header-logo" onClick={() => navigate('/dashboard')}>EvaLime MCQ</span>
@@ -15,7 +16,8 @@ const Layout = ({ user, theme, toggleTheme, handleLogout, children }) => {
           </div>
         </header>
       )}
-      <main>
+      {/* Use zero padding on the unauthenticated landing page so it can stretch edge-to-edge */}
+      <main className={user ? undefined : 'p-0'}>
         {children}
       </main>
     </div>
