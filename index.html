@@ -2,14 +2,14 @@
 <html lang="en" data-theme="evalime">
   <head>
     <meta charset="UTF-8" />
-    <!-- Use the static path so FastAPI can serve this file -->
-    <link rel="icon" type="image/svg+xml" href="/static/vite.svg" />
+    <!-- Icon will be served from the static directory -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EvaLime – AI-powered MCQ Practice</title>
   </head>
   <body>
     <div id="root"></div>
-    <!-- Load the React bundle from the mounted static directory -->
-    <script type="module" src="/static/src/main.jsx"></script>
+    <!-- Load the React bundle; Vite replaces this during build -->
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

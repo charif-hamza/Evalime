@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
+from typing import cast
 from passlib.context import CryptContext
 from jose import jwt
 from datetime import datetime, timedelta
@@ -50,7 +51,7 @@ def register(auth: AuthRequest, db: Session = Depends(get_db)):
 @router.post("/login")
 def login(auth: AuthRequest, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.username == auth.username).first()
-    if not user or not verify_password(auth.password, user.hashed_password):
+    if not user or not verify_password(auth.password, cast(str, user.hashed_password)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     token = create_access_token({"sub": str(user.id)})
     return {"token": token}
