@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import anime from "animejs/lib/anime.es.js";
+
+/* eslint-disable no-irregular-whitespace */
 
 /**
  * A cinematic landing page with subtle yet striking Anime.js animations.

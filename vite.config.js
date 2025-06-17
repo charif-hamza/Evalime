@@ -8,6 +8,10 @@ export default defineConfig({
     react(),
     tailwindcss(), // Add the Tailwind plugin here
   ],
+  test: {
+    environment: 'jsdom',
+    setupFiles: './vitest.setup.js',
+  },
   server: {
     proxy: {
       '/api': {
