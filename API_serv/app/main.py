@@ -35,15 +35,20 @@ app.include_router(questions.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
 
 # --- Static File Serving ---
-# This assumes your index.html is in the root directory alongside the `app` folder.
-# If your static files are elsewhere, adjust the path.
-static_dir = os.path.join(os.path.dirname(__file__), "..", "..") # Goes up to API_serv/
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+# Serve the built front-end from the ``dist`` directory. Vite outputs the
+# production assets here.
+static_dir = os.path.join(os.path.dirname(__file__), "..", "..", "dist")
 
-@app.get("/", include_in_schema=False)
-async def read_index():
-    """Serves the main index.html file."""
-    html_file_path = os.path.join(static_dir, "index.html")
-    if not os.path.exists(html_file_path):
-        raise HTTPException(status_code=404, detail="index.html not found")
-    return FileResponse(html_file_path)
+if os.path.isdir(static_dir):
+    # If the build directory exists, mount it as the app's root so requests for
+    # ``/`` return ``index.html`` and assets resolve correctly.
+    app.mount(
+        "/",
+        StaticFiles(directory=static_dir, html=True),
+        name="static",
+    )
+else:
+    # In development, serve files from the project root so Vite's dev server can
+    # handle module loading.
+    dev_static = os.path.join(os.path.dirname(__file__), "..", "..")
+    app.mount("/", StaticFiles(directory=dev_static, html=True), name="static")

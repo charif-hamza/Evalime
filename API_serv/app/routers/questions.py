@@ -35,7 +35,9 @@ async def list_evaluations(db: Session = Depends(get_db)):
         evaluations = db.query(models.Evaluation).all()
         result = []
         for ev in evaluations:
-            summary = ev.summary_data if isinstance(ev.summary_data, dict) else {}
+            summary: dict[str, object] = (
+                ev.summary_data if isinstance(ev.summary_data, dict) else {}
+            )
             
             # Fallback to a default title if ouvrage isn't present
             ouvrage = summary.get("ouvrage") or getattr(ev, 'title', None) or f"Evaluation #{ev.id}"

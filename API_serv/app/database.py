@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 
 class Settings(BaseSettings):
     """Loads environment variables from .env file."""
-    database_url: str
+    database_url: str = ""
 
     class Config:
         env_file = ".env"
