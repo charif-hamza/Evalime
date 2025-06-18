@@ -2,7 +2,7 @@
 import Question from './Question';
 import styles from './QuestionList.module.css';
 
-function QuestionList({ questions, isLoading, error, userAnswers, setUserAnswers, showCorrection }) {
+function QuestionList({ questions, isLoading, error, userAnswers, setUserAnswers, showCorrection, onExplain }) {
 
   // Allow multiple answers per question (toggle selection)
   const handleSelectAnswer = (questionId, choiceId) => {
@@ -46,6 +46,7 @@ function QuestionList({ questions, isLoading, error, userAnswers, setUserAnswers
           userAnswer={userAnswers[q.question_id] || []}
           onSelect={handleSelectAnswer}
           showCorrection={showCorrection}
+          onExplain={onExplain}
         />
       ))}
     </div>

@@ -39,7 +39,8 @@ export default function DashboardPage() {
   }, []);
 
   const handleSelectEvaluation = (id) => {
-    navigate(`/mcq/${id}`);
+    const evaluation = evaluations.find(ev => ev.id === id);
+    navigate(`/mcq/${id}`, { state: { evaluation } });
   };
 
   return (

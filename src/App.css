@@ -65,3 +65,18 @@
 main {
   padding: 2rem 1rem; /* Padding for page content */
 }
+
+.insights-link {
+  background: var(--primary-blue);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.insights-link:hover {
+  background: #2563eb;
+}

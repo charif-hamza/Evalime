@@ -9,6 +9,7 @@ import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import MCQPage from './pages/MCQPage';
+import InsightsPage from './pages/InsightsPage';
 
 import './App.css';
 
@@ -73,6 +74,14 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <MCQPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/insights"
+          element={
+            <ProtectedRoute user={user}>
+              <InsightsPage />
             </ProtectedRoute>
           }
         />

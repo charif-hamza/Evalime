@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import styles from './Question.module.css';
 import { getExplanation } from '../services/gemini';
 
-function Question({ question, index, userAnswer, onSelect, showCorrection }) {
+function Question({ question, index, userAnswer, onSelect, showCorrection, onExplain }) {
   const [explanation, setExplanation] = useState('');
   const [showExplanation, setShowExplanation] = useState(false);
 
@@ -20,6 +20,18 @@ function Question({ question, index, userAnswer, onSelect, showCorrection }) {
         const prompt = `Tu es un professeur de QCM. Explique (en français, de manière concise et pédagogique) pourquoi les réponses correctes à la question suivante sont justes et pourquoi les autres ne le sont pas.\n\nQuestion : ${question.question_text}\n\nChoix possibles :\n${choixList}\n\nRéponse(s) correcte(s) : ${correctChoices}.\nRéponse(s) choisie(s) par l'étudiant : ${selectedChoices}.\n\nFournis une explication claire et encourageante pour aider l'étudiant à comprendre.`;
         const aiExplanation = await getExplanation(prompt);
         setExplanation(aiExplanation);
+
+        // ---- Notify parent page (for dashboard) ----
+        if (typeof onExplain === 'function') {
+          // Compute correctness: every choice must match selection
+          const isFullyCorrect = choices.every(c => c.is_correct === selectedIds.includes(c.choice_id));
+
+          onExplain({
+            question_id: question.question_id ?? question.id,
+            topic: question.topic || null,
+            is_correct: isFullyCorrect,
+          });
+        }
       } catch (error) {
         console.error('Error getting explanation:', error);
         setExplanation('Sorry, I was unable to get an explanation.');

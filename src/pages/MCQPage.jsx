@@ -1,7 +1,8 @@
 // src/pages/MCQPage.jsx
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { fetchQuestionsByEvalId } from '../services/api';
+import { fetchDashboardInsights } from '../services/dashboard';
 import QuestionList from '../components/QuestionList';
 import Button from '../components/Button';
 import styles from './MCQPage.module.css';
@@ -9,6 +10,7 @@ import styles from './MCQPage.module.css';
 export default function MCQPage() {
   const { evaluationId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [questions, setQuestions] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +18,12 @@ export default function MCQPage() {
   
   const [userAnswers, setUserAnswers] = useState({});
   const [showCorrection, setShowCorrection] = useState(false);
+
+  // Store performance data received when user clicks "Explain with AI"
+  const [performanceData, setPerformanceData] = useState([]);
+
+  const evaluation = location.state?.evaluation;
+  const evaluationLabel = evaluation?.ouvrage || evaluation?.epreuve || `Evaluation ${evaluationId}`;
 
   useEffect(() => {
     if (!evaluationId) return;
@@ -40,6 +48,27 @@ export default function MCQPage() {
     setShowCorrection(true);
   };
 
+  const handleExplanation = (perf) => {
+    // Avoid duplicates
+    setPerformanceData(prev => {
+      const exists = prev.find(p => p.question_id === perf.question_id);
+      if (exists) return prev;
+      return [...prev, { ...perf, topic: evaluationLabel }];
+    });
+  };
+
+  const handleViewDashboard = async () => {
+    try {
+      const insights = await fetchDashboardInsights(performanceData.map(p => ({ ...p, topic: evaluationLabel })));
+      const insightsWithLabel = { ...insights, evaluationLabel };
+      localStorage.setItem('lastInsights', JSON.stringify(insightsWithLabel));
+      navigate('/insights', { state: { insights: insightsWithLabel } });
+    } catch (err) {
+      console.error(err);
+      alert(err.message || 'Failed to fetch dashboard insights');
+    }
+  };
+
   return (
     <div className={`${styles.mcqContainer} fade-in`}>
       <button onClick={() => navigate('/dashboard')} className={styles.backButton}>
@@ -54,6 +83,7 @@ export default function MCQPage() {
           userAnswers={userAnswers}
           setUserAnswers={setUserAnswers}
           showCorrection={showCorrection}
+          onExplain={handleExplanation}
         />
       </div>
 
@@ -69,6 +99,13 @@ export default function MCQPage() {
         <div className={`${styles.correctionMessage} correction-animate`}>
           Correction displayed! Green = correct, Red = your wrong answer.
         </div>
+      )}
+
+      {/* Show dashboard button if at least one explanation has been requested */}
+      {performanceData.length > 0 && (
+        <Button onClick={handleViewDashboard} style={{ marginTop: '1rem' }}>
+          View Dashboard
+        </Button>
       )}
     </div>
   );

@@ -41,6 +41,7 @@ class Question(BaseModel):
     question_id: int = Field(alias="id")
     question_text: str
     question_image_url: Optional[str] = None
+    topic: Optional[str] = None  # NEW: Include topic metadata for analytics
     
     # This tells Pydantic that the 'choices' attribute from the ORM model
     # should be a list, and each item in that list must conform to our 'Choice' schema above.
@@ -48,3 +49,30 @@ class Question(BaseModel):
     choices: List[Choice] = []
 
     model_config = ConfigDict(from_attributes=True)
+
+
+# --- Dashboard Insight Schemas ---
+
+class QuestionPerformance(BaseModel):
+    """Represents the performance of the user on a single question."""
+    question_id: Optional[int] = None
+    topic: Optional[str] = None
+    is_correct: bool
+
+
+class TopicInsight(BaseModel):
+    topic: str
+    correct: int
+    total: int
+    accuracy: float
+    status: str  # e.g. "strength", "blind-spot", "moderate"
+
+
+class DashboardInsights(BaseModel):
+    total_questions: int
+    correct: int
+    incorrect: int
+    accuracy: float
+    topic_breakdown: List[TopicInsight]
+    strengths: List[str]
+    blind_spots: List[str]

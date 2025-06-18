@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import questions, auth
+from .routers import questions, auth, dashboard
 # In a full app, you would import other routers here too
 # from .routers import attempts
 
@@ -33,6 +33,7 @@ app.add_middleware(
 # All routes from questions.py will be prefixed with /api
 app.include_router(questions.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
+app.include_router(dashboard.router, prefix="/api")
 
 # --- Static File Serving ---
 # Serve the built front-end from the ``dist`` directory. Vite outputs the

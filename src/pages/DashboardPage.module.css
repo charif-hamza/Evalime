@@ -79,3 +79,79 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Additional styles for InsightsPage */
+.statsSection {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.statCard {
+  background: var(--card-background);
+  padding: 1.2rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  min-width: 120px;
+}
+.statCard h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--secondary-text-color);
+}
+.statCard p {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.topicSection {
+  margin-bottom: 2.5rem;
+}
+.topicGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+.topicCard {
+  background: var(--card-background);
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+}
+.topicCard h3 {
+  margin-bottom: 0.5rem;
+}
+.progressBarWrapper {
+  width: 100%;
+  background: #e5e7eb;
+  border-radius: 8px;
+  height: 8px;
+  margin: 0.5rem 0;
+}
+.progressBarFill {
+  height: 100%;
+  border-radius: 8px;
+}
+.summarySection {
+  margin-bottom: 2rem;
+}
+.summaryLists {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+.summaryLists ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.backButton {
+  margin-bottom: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--link-color, #3b82f6);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
